@@ -1,0 +1,90 @@
+﻿@page "/"
+
+<PageContainer Title="Applications">    
+    <Content>
+        <div class="pageHeaderContent__b__1">
+            <p>
+                You can check all your application and its associated rules from this web.
+            </p>
+            <div class="contentLink">
+                <a>
+                    <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />
+                    Quick start
+                </a>
+                <a>
+                    <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" />
+                    Product Introduction
+                </a>
+                <a>
+                    <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" />
+                    Product Documentation
+                </a>
+            </div>
+        </div>
+    </Content>
+    <ExtraContent>
+        <div class="extraImg">
+            <img alt="This is a title"
+                 src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png" />
+        </div>
+    </ExtraContent>
+    <ChildContent>
+        <div class="cardList">
+            <AntList TItem="Auth0.ManagementApi.Models.Client" Loading="IsLoading"
+                     DataSource="Clients"
+                     ItemLayout="ListItemLayout.Horizontal"
+                     Grid="_listGridType">
+                <ChildContent>
+                    <ListItem NoFlex Grid="_listGridType">
+                        @if (string.IsNullOrEmpty(context.ClientId))
+                        {
+                            <Button Type="dashed" class="newButton">
+                                <Icon Type="plus" Theme="outline" /> Add Product
+                            </Button> }
+                        else
+                        {
+                            <Card Hoverable Bordered Class="card" Actions="GetActions(context)">
+                                <CardMeta>
+                                    <AvatarTemplate>
+                                        <img alt="" class="cardAvatar" src="@context.LogoUri" />
+                                    </AvatarTemplate>
+                                    <TitleTemplate>
+                                        <a>@context.Name</a>
+                                    </TitleTemplate>
+                                    <DescriptionTemplate>
+                                        <Paragraph class="item" Ellipsis>
+                                            <!--todo: Ellipsis not working-->
+                                            @context.Description
+                                        </Paragraph>
+                                    </DescriptionTemplate>
+                                </CardMeta>
+                            </Card>
+                        }
+
+                    </ListItem>
+                </ChildContent>
+                <LoadMore>
+                    @if (!IsLoading && HasMoreData)
+                    {
+                        <div class="demo-loadmore-btn-content ">
+                            <Button OnClick="OnLoadMore">loading more</Button>
+                        </div>
+                    }
+                </LoadMore>
+
+            </AntList>
+        </div>
+    </ChildContent>
+</PageContainer>
+
+@code
+{
+    private IList<RenderFragment> GetActions(Auth0.ManagementApi.Models.Client model)
+    {
+        var result = new List<RenderFragment>();
+        result.Add(@<AntDesign.Tooltip Title="@("View")"><a href="@($"/apps/{model.ClientId}")"><Icon Type="eye" Theme="outline" /></a></AntDesign.Tooltip>);
+result.Add(@<AntDesign.Tooltip Title="@("Open in Auth0")"><a href="@($"{Options.Value.ConsoleBaseUrl}/applications/{model.ClientId}/settings")" target="_blank"><Icon Type="link" Theme="outline" /></a></AntDesign.Tooltip>);
+
+return result;
+}
+}

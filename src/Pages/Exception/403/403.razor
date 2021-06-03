@@ -1,0 +1,22 @@
+﻿@namespace Auth0app.Pages.Exception
+@layout UserLayout
+@page "/exception/403"
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager NavigationManager
+
+@attribute [AllowAnonymous]
+
+<Result Status="403"
+        Title="403"
+        SubTitle="Sorry, you are not authorized to access this page.">
+    <Extra>
+        <Button Type="primary" OnClick="OnLogout" >Sign out</Button>
+    </Extra>
+</Result>
+
+@code {
+    private void OnLogout()
+    {
+        NavigationManager.NavigateTo("/account/logout", true);
+    }
+}

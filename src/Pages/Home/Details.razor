@@ -1,0 +1,59 @@
+﻿@page "/apps/{Id}"
+<PageContainer Title="@(Client?.Name)">
+
+    <ChildContent>
+        <Skeleton Loading="IsLoading">
+            <div class="main__b__3">
+                <GridContent>
+                    <Card Title="@("Basic Info")" Style="margin-bottom: 24px;">
+                        <Descriptions Style="margin-bottom: 24px;">
+                            <DescriptionsItem Title="@("Domain")">@Options.Value.Domain</DescriptionsItem>
+                            <DescriptionsItem Title="@("Client ID")">@Client.ClientId</DescriptionsItem>
+                            <DescriptionsItem Title="@("Application Type")">@Client.ApplicationType</DescriptionsItem>
+                            <DescriptionsItem Title="@("Description")">@Client.Description</DescriptionsItem>
+                        </Descriptions>
+                    </Card>
+
+                    <Card Class="listCard"
+                          Title="Associated Rules"
+                          Style="margin-top: 24px;"
+                          BodyStyle="padding: 0 32px 40px 32px">
+
+                        <ChildContent>
+                            <Button Type="dashed"
+                                    Style="width: 100%; margin-bottom: 8px;">
+                                <Icon Type="plus" Theme="outline" />
+                                Add
+                            </Button>
+
+                            <AntList TItem="Auth0.ManagementApi.Models.Rule"
+                                     DataSource="Rules"
+                                     ItemLayout="ListItemLayout.Horizontal">
+                                <ListItem>
+                                    <ListItemMeta>
+                                        <TitleTemplate>
+                                            <a href="@($"{Options.Value.ConsoleBaseUrl}/rules/{context.Id}")" target="_blank">@context.Name</a>
+                                        </TitleTemplate>
+                                    </ListItemMeta>
+                                    <div class="listContent">                                        
+                                        <div class="listContentItem">
+                                            <span>Enabled</span>
+                                            @if(context.Enabled.HasValue && context.Enabled.Value)
+                                            {
+                                                <Switch Checked="true" Disabled="true" /> 
+                                            }
+                                            else
+                                            {
+                                                <Switch Checked="false" Disabled="true" />
+                                            }
+                                        </div>
+                                    </div>
+                                </ListItem>
+                            </AntList>
+                        </ChildContent>
+                    </Card>
+                </GridContent>
+            </div>
+        </Skeleton>
+    </ChildContent>
+</PageContainer>

@@ -1,0 +1,51 @@
+﻿@namespace Auth0app
+@inherits LayoutComponentBase
+
+<AuthorizeView>
+    <Authorized>
+        <AntDesign.ProLayout.BasicLayout Logo="@("/logo.png")" Title="Apps Manager"
+                                         MenuData="_menuData">
+            <RightContentRender>
+                <Auth0app.Components.RightContent />
+            </RightContentRender>
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <FooterRender>
+
+            </FooterRender>
+        </AntDesign.ProLayout.BasicLayout>
+        <SettingDrawer />
+    </Authorized>
+    <NotAuthorized>
+        @if (!context.User.Identity.IsAuthenticated)
+        {
+            <RedirectToLogin />
+        }
+        else
+        {
+            <Result Status="403"
+                    Title="403"
+                    SubTitle="Sorry, you are not authorized to access this page.">
+                <Extra>
+                    <Button Type="primary">Back Home</Button>
+                    <a href="/Account/Login">Log in</a>
+                </Extra>
+            </Result>
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code
+{
+    private MenuDataItem[] _menuData = { };
+
+    [Inject] public HttpClient HttpClient { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _menuData = await HttpClient.GetFromJsonAsync<MenuDataItem[]>("data/menu.json");
+    }
+}

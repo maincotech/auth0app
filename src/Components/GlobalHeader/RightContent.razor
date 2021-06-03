@@ -1,0 +1,12 @@
+﻿@namespace Auth0app.Components
+@inherits AntDomComponentBase
+
+<Space Class="@ClassMapper.Class">
+   
+    <SpaceItem>
+        <AvatarDropdown Name="@_currentUser.Name"
+                        Avatar="@_currentUser.Avatar"
+                        OnItemSelected="HandleSelectUser" />
+    </SpaceItem>
+    
+</Space>
