@@ -7,17 +7,17 @@
                 You can check all your application and its associated rules from this web.
             </p>
             <div class="contentLink">
-                <a>
+                <a href="https://github.com/maincotech/auth0app/raw/main/README.md" target="_blank">
                     <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/MjEImQtenlyueSmVEfUD.svg" />
                     Quick start
                 </a>
-                <a>
+                <a href="https://auth0.com/docs/applications" target="_blank">
                     <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/NbuDUAuBlIApFuDvWiND.svg" />
-                    Product Introduction
-                </a>
-                <a>
-                    <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" />
                     Product Documentation
+                </a>
+                <a target="_blank" href="@($"{Options.Value.ConsoleBaseUrl}/applications")">
+                    <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/ohOEPSYdDTNnyMbGuyLb.svg" />
+                    Open In Auth0 Dashboard
                 </a>
             </div>
         </div>
@@ -41,7 +41,7 @@
                             <Button Type="dashed" class="newButton">
                                 <Icon Type="plus" Theme="outline" /> Add Product
                             </Button> }
-                        else
+                        else if(context.Name != "All Applications")
                         {
                             <Card Hoverable Bordered Class="card" Actions="GetActions(context)">
                                 <CardMeta>
