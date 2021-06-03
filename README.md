@@ -29,7 +29,7 @@ to call Auth0 Management API.
 ![Screenshot](images/auth0Settings.png)
 
 #### ApiSettings
-![Screenshot](images/apiSettings.png)
+![Screenshot](images/APISettings.png)
 
 5. Run the app with your IDE or these commands:
 
