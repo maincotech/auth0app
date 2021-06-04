@@ -67,3 +67,65 @@ function userWhitelistForSpecificApp(user, context, callback) {
   callback(null, user, context);
 }
 ```
+
+
+### Troubleshooting
+If you get the error like below, it is caused by we are using the self-signed certificate while running the app locally on windows. Please don't forget to add the localhost certifcate to the trusted certificated store.
+```
+info: AntDesign.ProLayout.BasicLayout[0]
+      BasicLayout initialized.
+info: AntDesign.ProLayout.BaseMenu[0]
+      BaseMenu initialized.
+warn: Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer[100]
+      Unhandled exception rendering component: The SSL connection could not be established, see inner exception.
+      System.Net.Http.HttpRequestException: The SSL connection could not be established, see inner exception.
+       ---> System.Security.Authentication.AuthenticationException: The remote certificate is invalid because of errors in the certificate chain: UntrustedRoot
+         at System.Net.Security.SslStream.SendAuthResetSignal(ProtocolToken message, ExceptionDispatchInfo exception)
+         at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+         at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+         --- End of inner exception stack trace ---
+         at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+         at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+         at System.Net.Http.Json.HttpClientJsonExtensions.GetFromJsonAsyncCore[T](Task`1 taskResponse, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Auth0app.BasicLayout.OnInitializedAsync() in /Users/lgj/tmp/techexec/20210603_minghaoli/auth0app/src/Layouts/BasicLayout.razor:line 49
+         at Microsoft.AspNetCore.Components.ComponentBase.RunInitAndSetParametersAsync()
+         at Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle)
+fail: Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost[111]
+      Unhandled exception in circuit 'Jw3lYayQMC3JAIQ06hjvK5bXrynLr5N2F4LcBriSMBw'.
+      System.Net.Http.HttpRequestException: The SSL connection could not be established, see inner exception.
+       ---> System.Security.Authentication.AuthenticationException: The remote certificate is invalid because of errors in the certificate chain: UntrustedRoot
+         at System.Net.Security.SslStream.SendAuthResetSignal(ProtocolToken message, ExceptionDispatchInfo exception)
+         at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+         at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+         --- End of inner exception stack trace ---
+         at System.Net.Http.ConnectHelper.EstablishSslConnectionAsyncCore(Boolean async, Stream stream, SslClientAuthenticationOptions sslOptions, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.GetHttpConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+         at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+         at System.Net.Http.HttpClient.SendAsyncCore(HttpRequestMessage request, HttpCompletionOption completionOption, Boolean async, Boolean emitTelemetryStartStop, CancellationToken cancellationToken)
+         at System.Net.Http.Json.HttpClientJsonExtensions.GetFromJsonAsyncCore[T](Task`1 taskResponse, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Auth0app.BasicLayout.OnInitializedAsync() in /Users/lgj/tmp/techexec/20210603_minghaoli/auth0app/src/Layouts/BasicLayout.razor:line 49
+         at Microsoft.AspNetCore.Components.ComponentBase.RunInitAndSetParametersAsync()
+         at Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle)
+```
+This can be done by the following steps.
+1. Open the web from Inter Explorer.
+2. Click the "Certificate error" from the address bar and select "View Certificates" button.
+![Screenshot](images/addcerttotrusted01.png)
+3. Click "Install Certificate..." button. Then click Next.
+![Screenshot](images/addcerttotrusted03.png)
+4. Select the "Place all certification in the following store". Then click "Browse...".
+5. Select "Trusted Root Certification Authorities" and click OK.
+![Screenshot](images/addcerttotrusted04.png)
+6. Click Next, then Finish.
+7. Click Yes if a Security Warning windows is popped-up.
+![Screenshot](images/addcerttotrusted07.png)
